@@ -122,9 +122,9 @@ fi
 vim /data/consul/shell/check_mysql_mgr_slave.sh
 
 #!/bin/bash
-port=3317
-user="tian"
-passwod="8085782"
+port=3306
+user="root"
+passwod="passwd"
 
 comm="/usr/local/mysql57/bin/mysql -u$user -h127.0.0.1 -P$port -p$passwod"
 value=`$comm -Nse "select 1"`
@@ -179,7 +179,7 @@ vim /etc/consul.d/master.json
         "master-write"
       ],
       "address": "172.18.0.151",
-      "port": 3317,
+      "port": 3306,
       "checks": [
         {
            "Args":["/data/consul/shell/check_mysql_mgr_master.sh"],
@@ -201,7 +201,7 @@ vim /etc/consul.d/slave.json
         "slave-read"
       ],
       "address": "172.18.0.151",
-      "port": 3317,
+      "port": 3306,
       "checks": [
         {
            "Args":["/data/consul/shell/check_mysql_mgr_slave.sh"],
