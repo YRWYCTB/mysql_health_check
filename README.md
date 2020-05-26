@@ -1,4 +1,4 @@
-#### mysql_health_check
+# mysql_health_check
 Series of scripts to check the states of mysql instances.
 ## 1、下载安装consul
 ```sh
@@ -76,7 +76,7 @@ nohup consul agent -config-dir=/etc/consul.d > /data/consul/consul.log &
 观察consul server的log日志3个client自动注册到了consul上了
 
 ## 4、MySQL检查脚本（MGR）
-# 4.1检查是节点为primary或者为secondary，三个节点均添加
+### 4.1检查是节点为primary或者为secondary，三个节点均添加
 ```sh
 vim /data/consul/shell/check_mysql_mgr_master.sh
 #!/bin/bash
