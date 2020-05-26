@@ -1,7 +1,7 @@
 #!/bin/bash
 port=3317
-user="tian"
-passwod="8085782"
+user="root"
+passwod="passwd"
 
 comm="/usr/local/mysql57/bin/mysql -u$user -h127.0.0.1 -P$port -p$passwod"
 value=`$comm -Nse "select 1"`

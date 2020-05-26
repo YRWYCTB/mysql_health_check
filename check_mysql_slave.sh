@@ -1,9 +1,9 @@
 #!/bin/bash
 port=3336
-user="tian"
-passwod="8085782"
-repl_check_user="tian"
-repl_check_pwd="8085782"
+user="root"
+passwod="passwd"
+repl_check_user="repl"
+repl_check_pwd="repl"
 
 master_comm="/usr/local/mysql57/bin/mysql -u$user -h127.0.0.1 -P$port -p$passwod"
 slave_comm="/usr/local/mysql57/bin/mysql -u$repl_check_user  -P$port -p$repl_check_pwd"
