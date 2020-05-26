@@ -63,7 +63,7 @@ vim /etc/consul.d/client.json
   "start_join": ["172.18.0.150"]
 }
 ```
-## 3 启动agent
+## 3 、启动agent
 
 启动consul server 在172.18.0.150上
 ```sh
@@ -76,7 +76,7 @@ nohup consul agent -config-dir=/etc/consul.d > /data/consul/consul.log &
 观察consul server的log日志3个client自动注册到了consul上了
 
 ## 4、MySQL检查脚本（MGR）
-### 4.1检查是节点为primary或者为secondary，三个节点均添加
+### 4.1、检查是节点是否为primary，三个节点均添加
 ```sh
 vim /data/consul/shell/check_mysql_mgr_master.sh
 #!/bin/bash
@@ -117,7 +117,7 @@ else
    exit 2
 fi
 ```
-检查slave
+### 4.2、检查是节点是否为secondary，三个节点均添加
 ```sh
 vim /data/consul/shell/check_mysql_mgr_slave.sh
 
