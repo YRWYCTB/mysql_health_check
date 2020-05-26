@@ -1,0 +1,19 @@
+{
+  "services": [
+    {
+      "name": "mysql-slave",
+      "tags": [
+        "slave-read"
+      ],
+      "address": "172.18.0.151",
+      "port": 3336,
+      "checks": [
+        {
+           "Args":["/data/consul/shell/check_mysql_slave.sh"],
+           "Shell": "/bin/bash",
+           "interval": "5s"
+        }
+      ]
+    }
+  ]
+}

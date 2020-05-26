@@ -1,0 +1,19 @@
+{
+  "services": [
+    {
+      "name": "mysql-master",
+      "tags": [
+        "master-write"
+      ],
+      "address": "172.18.0.151",
+      "port": 3336,
+      "checks": [
+        {
+          "Args":["/data/consul/shell/check_mysql_master.sh"],
+          "Shell": "/bin/bash",
+          "interval": "5s"
+        }
+      ]
+    }
+  ]
+}
