@@ -35,10 +35,10 @@ else
    # 判断如果没有任何从节点，主节点也注册从角色服务。
    if [ $node_num -eq 1 ]
    then
-       echo "MySQL $port  Instance is slave ........"
+       echo "MySQL $port  Instance is primary node  ........"
        exit 0
    else
-       echo "MySQL $port  Instance is master ........"
+       echo "MySQL $port  Instance is secondary node ........"
        exit 2
    fi
 fi
