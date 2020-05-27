@@ -29,7 +29,7 @@ fi
 # 判断是不是主节点
 if [[ $server_uuid == $primary_member ]]
 then
-   echo "MySQL $port  Instance is master ........"
+   echo "MySQL $port  Instance is primary node ........"
    exit 0
 else
    echo "MySQL $port  Instance is secondary node ........"
