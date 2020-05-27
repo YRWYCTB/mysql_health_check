@@ -281,5 +281,251 @@ write-mysql-primary.service.consul. 0 IN A	172.18.0.151
 ;; MSG SIZE  rcvd: 79
 ```
 根据上述信息，可以区分当前主节点及从节点IP
-
+也可以使用curl进行结果的获取
+```sh
+curl http://172.18.0.150:8500/v1/health/service/write-mysql-primary?passing=true 
+```
+结果如下
+```
+[{
+	"Node": {
+		"ID": "4a8cee76-31da-14f0-5037-e08076b8bd91",
+		"Node": "dzst152",
+		"Address": "172.18.0.152",
+		"Datacenter": "dc1",
+		"TaggedAddresses": {
+			"lan": "172.18.0.152",
+			"lan_ipv4": "172.18.0.152",
+			"wan": "172.18.0.152",
+			"wan_ipv4": "172.18.0.152"
+		},
+		"Meta": {
+			"consul-network-segment": ""
+		},
+		"CreateIndex": 3472,
+		"ModifyIndex": 3473
+	},
+	"Service": {
+		"ID": "write-mysql-primary",
+		"Service": "write-mysql-primary",
+		"Tags": ["master-write"],
+		"Address": "172.18.0.152",
+		"TaggedAddresses": {
+			"lan_ipv4": {
+				"Address": "172.18.0.152",
+				"Port": 3317
+			},
+			"wan_ipv4": {
+				"Address": "172.18.0.152",
+				"Port": 3317
+			}
+		},
+		"Meta": null,
+		"Port": 3317,
+		"Weights": {
+			"Passing": 1,
+			"Warning": 1
+		},
+		"EnableTagOverride": false,
+		"Proxy": {
+			"MeshGateway": {},
+			"Expose": {}
+		},
+		"Connect": {},
+		"CreateIndex": 3474,
+		"ModifyIndex": 3474
+	},
+	"Checks": [{
+		"Node": "dzst152",
+		"CheckID": "serfHealth",
+		"Name": "Serf Health Status",
+		"Status": "passing",
+		"Notes": "",
+		"Output": "Agent alive and reachable",
+		"ServiceID": "",
+		"ServiceName": "",
+		"ServiceTags": [],
+		"Type": "",
+		"Definition": {},
+		"CreateIndex": 3472,
+		"ModifyIndex": 3472
+	}, {
+		"Node": "dzst152",
+		"CheckID": "service:write-mysql-primary",
+		"Name": "Service 'write-mysql-primary' check",
+		"Status": "passing",
+		"Notes": "",
+		"Output": "/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)\nmysql: [Warning] Using a password on the command line interface can be insecure.\nmysql: [Warning] Using a password on the command line interface can be insecure.\nmysql: [Warning] Using a password on the command line interface can be insecure.\nmysql: [Warning] Using a password on the command line interface can be insecure.\nMySQL 3317  Instance is master ........\n",
+		"ServiceID": "write-mysql-primary",
+		"ServiceName": "write-mysql-primary",
+		"ServiceTags": ["master-write"],
+		"Type": "script",
+		"Definition": {},
+		"CreateIndex": 3474,
+		"ModifyIndex": 13891
+	}]
+}]
+```
+读库检测
+```sh
+curl http://172.18.0.150:8500/v1/health/service/read-mysql-slave?passing=true 
+```
+结果如下
+```
+[{
+	"Node": {
+		"ID": "2ca5bc56-44b5-c699-9256-887817769e1b",
+		"Node": "dzst151",
+		"Address": "172.18.0.151",
+		"Datacenter": "dc1",
+		"TaggedAddresses": {
+			"lan": "172.18.0.151",
+			"lan_ipv4": "172.18.0.151",
+			"wan": "172.18.0.151",
+			"wan_ipv4": "172.18.0.151"
+		},
+		"Meta": {
+			"consul-network-segment": ""
+		},
+		"CreateIndex": 1807,
+		"ModifyIndex": 1808
+	},
+	"Service": {
+		"ID": "read-mysql-slave",
+		"Service": "read-mysql-slave",
+		"Tags": ["slave-read"],
+		"Address": "172.18.0.151",
+		"TaggedAddresses": {
+			"lan_ipv4": {
+				"Address": "172.18.0.151",
+				"Port": 3317
+			},
+			"wan_ipv4": {
+				"Address": "172.18.0.151",
+				"Port": 3317
+			}
+		},
+		"Meta": null,
+		"Port": 3317,
+		"Weights": {
+			"Passing": 1,
+			"Warning": 1
+		},
+		"EnableTagOverride": false,
+		"Proxy": {
+			"MeshGateway": {},
+			"Expose": {}
+		},
+		"Connect": {},
+		"CreateIndex": 1811,
+		"ModifyIndex": 1811
+	},
+	"Checks": [{
+		"Node": "dzst151",
+		"CheckID": "serfHealth",
+		"Name": "Serf Health Status",
+		"Status": "passing",
+		"Notes": "",
+		"Output": "Agent alive and reachable",
+		"ServiceID": "",
+		"ServiceName": "",
+		"ServiceTags": [],
+		"Type": "",
+		"Definition": {},
+		"CreateIndex": 1807,
+		"ModifyIndex": 15276
+	}, {
+		"Node": "dzst151",
+		"CheckID": "service:read-mysql-slave",
+		"Name": "Service 'read-mysql-slave' check",
+		"Status": "passing",
+		"Notes": "",
+		"Output": "/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)\nmysql: [Warning] Using a password on the command line interface can be insecure.\nmysql: [Warning] Using a password on the command line interface can be insecure.\nmysql: [Warning] Using a password on the command line interface can be insecure.\nmysql: [Warning] Using a password on the command line interface can be insecure.\nMySQL 3317  Instance is slave ........\n",
+		"ServiceID": "read-mysql-slave",
+		"ServiceName": "read-mysql-slave",
+		"ServiceTags": ["slave-read"],
+		"Type": "script",
+		"Definition": {},
+		"CreateIndex": 1811,
+		"ModifyIndex": 15282
+	}]
+}, {
+	"Node": {
+		"ID": "550130bb-3a92-5624-ec12-b69700def621",
+		"Node": "dzst160",
+		"Address": "172.18.0.160",
+		"Datacenter": "dc1",
+		"TaggedAddresses": {
+			"lan": "172.18.0.160",
+			"lan_ipv4": "172.18.0.160",
+			"wan": "172.18.0.160",
+			"wan_ipv4": "172.18.0.160"
+		},
+		"Meta": {
+			"consul-network-segment": ""
+		},
+		"CreateIndex": 4688,
+		"ModifyIndex": 4689
+	},
+	"Service": {
+		"ID": "read-mysql-slave",
+		"Service": "read-mysql-slave",
+		"Tags": ["slave-read"],
+		"Address": "172.18.0.160",
+		"TaggedAddresses": {
+			"lan_ipv4": {
+				"Address": "172.18.0.160",
+				"Port": 3317
+			},
+			"wan_ipv4": {
+				"Address": "172.18.0.160",
+				"Port": 3317
+			}
+		},
+		"Meta": null,
+		"Port": 3317,
+		"Weights": {
+			"Passing": 1,
+			"Warning": 1
+		},
+		"EnableTagOverride": false,
+		"Proxy": {
+			"MeshGateway": {},
+			"Expose": {}
+		},
+		"Connect": {},
+		"CreateIndex": 4693,
+		"ModifyIndex": 4693
+	},
+	"Checks": [{
+		"Node": "dzst160",
+		"CheckID": "serfHealth",
+		"Name": "Serf Health Status",
+		"Status": "passing",
+		"Notes": "",
+		"Output": "Agent alive and reachable",
+		"ServiceID": "",
+		"ServiceName": "",
+		"ServiceTags": [],
+		"Type": "",
+		"Definition": {},
+		"CreateIndex": 4688,
+		"ModifyIndex": 4688
+	}, {
+		"Node": "dzst160",
+		"CheckID": "service:read-mysql-slave",
+		"Name": "Service 'read-mysql-slave' check",
+		"Status": "passing",
+		"Notes": "",
+		"Output": "/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)\nmysql: [Warning] Using a password on the command line interface can be insecure.\nmysql: [Warning] Using a password on the command line interface can be insecure.\nmysql: [Warning] Using a password on the command line interface can be insecure.\nmysql: [Warning] Using a password on the command line interface can be insecure.\nMySQL 3317  Instance is slave ........\n",
+		"ServiceID": "read-mysql-slave",
+		"ServiceName": "read-mysql-slave",
+		"ServiceTags": ["slave-read"],
+		"Type": "script",
+		"Definition": {},
+		"CreateIndex": 4693,
+		"ModifyIndex": 13826
+	}]
+}]
+```
 对于一般主从复制的健康检查脚本，放在该项目的shell文件下。
