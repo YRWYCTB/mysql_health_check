@@ -14,6 +14,12 @@ mkdir /data/consul/shell -p
 ```
 ## 2、创建配置文件
 
+配置文件分别在各个节点的/etc/consul.d目录下创建。
+
+server-agent的文件名为server.json
+
+client-agent的文件名为client.json
+
 Consul-server 172.18.0.150
 ```sh
 vim /etc/consul.d/server.json
@@ -29,7 +35,9 @@ vim /etc/consul.d/server.json
   "ui":true
 }
 ```
-注："bootstrap_expect": 1,为server节点个数，测试时server节点为一个，生产环境推荐3、5
+注："bootstrap_expect": 1,为server节点个数，测试时server节点为一个，生产环境推荐3、5；
+
+至少需要三个server节点保证服务的高可用性。
 ```sh
 Consul-client  172.18.0.151/172.18.0.152/172.18.0.160
 vim  /etc/consul.d/client.json
@@ -77,6 +85,8 @@ nohup consul agent -config-dir=/etc/consul.d > /data/consul/consul.log &
 
 ## 4、MySQL检查脚本（MGR）
 ### 4.1、检查是节点是否为primary，三个节点均添加
+
+在/data/consul/shell目录下创建脚本
 ```sh
 vim /data/consul/shell/check_mysql_mgr_master.sh
 #!/bin/bash
@@ -168,7 +178,12 @@ fi
 ```
 ## 5、增加服务注册配置：
 
-三个节点均添加，只将address改为所部署机器Ip，port为mysql端口
+三个client-agent节点(mysql实例所在节点)均添加服务注册文件
+
+文件内容如下：只需将address改为所部署机器Ip，port该为mysql端口
+
+在/etc/consul.d下创建服务注册配置文件
+
 ```sh
 vim /etc/consul.d/master.json
 {
@@ -215,7 +230,7 @@ vim /etc/consul.d/slave.json
 ```
 ## 6、查看服务注册是否正常：
 
-重新启动consul-client之后
+重新启动consul-client之后（kill consul进程后重新启动）
 ```sh
 [zhaofeng.tian@l-betadb2.ops.p1 ~]$ dig @172.18.0.150 -p 8600 read-mysql-slave.service.consul
 
@@ -266,3 +281,5 @@ write-mysql-primary.service.consul. 0 IN A	172.18.0.151
 ;; MSG SIZE  rcvd: 79
 ```
 根据上述信息，可以区分当前主节点及从节点IP
+
+对于一般主从复制的健康检查脚本，放在该项目的shell文件下。
